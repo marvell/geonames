@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/c4milo/unzipit"
 	"github.com/marvell/csvutil"
 	"github.com/palantir/stacktrace"
 )
@@ -66,4 +67,25 @@ func parseCsvFile(name string, skipLines int, separateChar rune, commentsChar ru
 	})
 
 	return nil
+}
+
+func unZip(name string) (string, error) {
+	file, err := os.Open(name)
+	if err != nil {
+		return "", stacktrace.Propagate(err, "try to open zip file")
+	}
+
+	defer file.Close()
+
+	tempDir, err := ioutil.TempDir(os.TempDir(), "geonames")
+	if err != nil {
+		return "", stacktrace.Propagate(err, "try to create temporary directory")
+	}
+
+	destPath, err := unzipit.Unpack(file, tempDir)
+	if err != nil {
+		return "", stacktrace.Propagate(err, "try to unpack zip archive")
+	}
+
+	return destPath, nil
 }
