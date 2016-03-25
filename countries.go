@@ -38,7 +38,7 @@ func FetchCountries() ([]Country, error) {
 
 	countries := make([]Country, 0)
 
-	err = parseCsvFile(geonamesFile, '\t', '#', func(raw []string) bool {
+	err = parseCsvFile(geonamesFile, 0, '\t', '#', func(raw []string) bool {
 		if len(raw) != 19 {
 			logWarn("invalid (%d) count of fields\n\t=> %v", len(raw), raw)
 

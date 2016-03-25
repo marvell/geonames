@@ -39,7 +39,7 @@ func downloadFile(url string) (string, error) {
 	return file.Name(), nil
 }
 
-func parseCsvFile(name string, separateChar rune, commentsChar rune, handler func(raw []string) bool) error {
+func parseCsvFile(name string, skipLines int, separateChar rune, commentsChar rune, handler func(raw []string) bool) error {
 	file, err := os.Open(name)
 	if err != nil {
 		return stacktrace.Propagate(err, "try to open csv file")
@@ -51,6 +51,10 @@ func parseCsvFile(name string, separateChar rune, commentsChar rune, handler fun
 		CommentPrefix: string(commentsChar),
 		Comments:      true,
 	})
+
+	for i := 0; i < skipLines; i++ {
+		reader.ReadRow()
+	}
 
 	reader.Do(func(row csvutil.Row) bool {
 		if row.HasError() {
