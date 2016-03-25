@@ -23,5 +23,7 @@ func DisableDebugMode() {
 }
 
 func logWarn(f string, vars ...interface{}) {
-	logger.Printf("[WRN] "+f, vars...)
+	if debugMode {
+		logger.Printf("[WRN] "+f, vars...)
+	}
 }
