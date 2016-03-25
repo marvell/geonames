@@ -5,14 +5,23 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/c4milo/unzipit"
 	"github.com/marvell/csvutil"
 	"github.com/palantir/stacktrace"
 )
 
+var httpClient *http.Client
+
+func init() {
+	httpClient = &http.Client{
+		Timeout: 10 * time.Second,
+	}
+}
+
 func downloadFile(url string) (string, error) {
-	resp, err := http.Get(url)
+	resp, err := httpClient.Get(url)
 
 	if resp != nil {
 		defer func() { resp.Body.Close() }()
