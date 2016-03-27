@@ -23,8 +23,8 @@ See `examples` folder.
     * [ ] User tags
     * [ ] Hierarchy
 
-2. Functionality
+2. Functionality:
 
-    * [ ] Caching.
-    * [ ] More examples.
-    * [ ] CLI client.
+    * [ ] Caching
+    * [ ] More examples
+    * [ ] CLI client
