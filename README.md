@@ -1,28 +1,30 @@
-# Geonames for Go
+# Geonames data for Go
 
 [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat)](https://godoc.org/github.com/marvell/geonames)
 [![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](LICENSE)
 
+Handy interface for access to geonames.org data.
+
 ## Usage
 
-```go
-    import (
-    	"log"
+See `examples` folder.
 
-    	"github.com/marvell/geonames"
-    )
+# Roadmap
 
-    func main() {
-    	geonames.EnableDebugMode()
+1. Data structures:
 
-    	data, err := geonames.FetchCountryFeatures("US")
-    	if err != nil {
-    		log.Fatal(err)
-    	}
+    * [x] Countries
+    * [x] Time zones
+    * [x] Languages
+    * [x] Features
+    * [ ] Alternate names
+    * [ ] Admin1 codes
+    * [ ] Feature codes
+    * [ ] User tags
+    * [ ] Hierarchy
 
-    	log.Printf("%d", len(data))
-    	if len(data) > 0 {
-    		log.Printf("%#v", data[0])
-    	}
-    }
-```
+2. Functionality
+
+    * [ ] Caching.
+    * [ ] More examples.
+    * [ ] CLI client.
