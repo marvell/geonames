@@ -5,6 +5,10 @@
 
 Handy interface for access to geonames.org data.
 
+## Installation
+
+    go get github.com/marvell/geonames
+
 ## Usage
 
 See `examples` folder.
