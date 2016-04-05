@@ -9,7 +9,7 @@ import (
 func main() {
 	geonames.EnableDebugMode()
 
-	usFeatures, err := geonames.FetchCountryFeatures("US")
+	usFeatures, err := geonames.FetchCountryFeatures("US", true)
 	if err != nil {
 		log.Fatal(err)
 	}

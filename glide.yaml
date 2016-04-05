@@ -1,0 +1,6 @@
+package: github.com/marvell/geonames
+import:
+- package: github.com/palantir/stacktrace
+- package: github.com/marvell/csvutil
+- package: github.com/c4milo/unzipit
+- package: github.com/marvell/downloader

@@ -13,8 +13,8 @@ type Language struct {
 }
 
 // FetchLanguages returns list of languages
-func FetchLanguages() ([]Language, error) {
-	geonamesFile, err := downloadFile(geonamesUrls["languages"])
+func FetchLanguages(useCache bool) ([]Language, error) {
+	geonamesFile, err := downloadFile(geonamesUrls["languages"], useCache)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "download geonames file with languages")
 	}

@@ -7,7 +7,7 @@ import (
 )
 
 func TestFetchTimeZones(t *testing.T) {
-	timeZones, err := FetchTimeZones()
+	timeZones, err := FetchTimeZones(true)
 	if err != nil {
 		t.Fatal(err)
 	}

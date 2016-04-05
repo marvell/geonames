@@ -33,8 +33,8 @@ type Feature struct {
 }
 
 // FetchCountryFeatures return list of features for a country
-func FetchCountryFeatures(countryIso2Code string) ([]Feature, error) {
-	geonamesZipFile, err := downloadFile(fmt.Sprintf(geonamesUrls["features"], countryIso2Code))
+func FetchCountryFeatures(countryIso2Code string, useCache bool) ([]Feature, error) {
+	geonamesZipFile, err := downloadFile(fmt.Sprintf(geonamesUrls["features"], countryIso2Code), useCache)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "download geonames file with features")
 	}
@@ -48,7 +48,7 @@ func FetchCountryFeatures(countryIso2Code string) ([]Feature, error) {
 }
 
 // FetchAllFeatures return list of features for all of countries
-func FetchAllFeatures() ([]Feature, error) {
+func FetchAllFeatures(useCache bool) ([]Feature, error) {
 	return nil, nil
 }
 

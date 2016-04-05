@@ -30,8 +30,8 @@ type Country struct {
 }
 
 // FetchCountries returns list of countries
-func FetchCountries() ([]Country, error) {
-	geonamesFile, err := downloadFile(geonamesUrls["countries"])
+func FetchCountries(useCache bool) ([]Country, error) {
+	geonamesFile, err := downloadFile(geonamesUrls["countries"], useCache)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "download geonames file with countries")
 	}

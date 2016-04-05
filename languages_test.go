@@ -7,7 +7,7 @@ import (
 )
 
 func TestFetchLanguages(t *testing.T) {
-	languages, err := FetchLanguages()
+	languages, err := FetchLanguages(true)
 	if err != nil {
 		t.Fatal(err)
 	}

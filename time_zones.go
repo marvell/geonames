@@ -17,8 +17,8 @@ type TimeZone struct {
 }
 
 // FetchTimeZones returns list of time zones
-func FetchTimeZones() ([]TimeZone, error) {
-	geonamesFile, err := downloadFile(geonamesUrls["time_zones"])
+func FetchTimeZones(useCache bool) ([]TimeZone, error) {
+	geonamesFile, err := downloadFile(geonamesUrls["time_zones"], useCache)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "download geonames file with time zones")
 	}

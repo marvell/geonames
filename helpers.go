@@ -3,50 +3,34 @@ package geonames
 import (
 	"io/ioutil"
 	"log"
-	"net/http"
+	"net/url"
 	"os"
+	"path"
 	"time"
 
 	"github.com/c4milo/unzipit"
 	"github.com/marvell/csvutil"
+	"github.com/marvell/downloader"
 	"github.com/palantir/stacktrace"
 )
 
-var httpClient *http.Client
+var cacheDir = "./cache"
 
-func init() {
-	httpClient = &http.Client{
-		Timeout: 10 * time.Second,
-	}
-}
+func downloadFile(fileUrl string, useCache bool) (string, error) {
+	filename := getUrlFilename(fileUrl)
 
-func downloadFile(url string) (string, error) {
-	resp, err := httpClient.Get(url)
-
-	if resp != nil {
-		defer func() { resp.Body.Close() }()
+	if useCache == true {
+		if _, err := os.Stat(filename); os.IsNotExist(err) == false {
+			return filename, nil
+		}
 	}
 
+	err := downloader.New(fileUrl).SaveToFile(filename)
 	if err != nil {
-		return "", stacktrace.Propagate(err, "try to download file")
+		return "", err
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return "", stacktrace.Propagate(err, "try to read body of response")
-	}
-
-	file, err := ioutil.TempFile(os.TempDir(), "geonames")
-	if err != nil {
-		return "", stacktrace.Propagate(err, "try to create temporary file")
-	}
-
-	err = ioutil.WriteFile(file.Name(), body, 0644)
-	if err != nil {
-		return "", stacktrace.Propagate(err, "try to write to temporary file")
-	}
-
-	return file.Name(), nil
+	return filename, nil
 }
 
 func parseCsvFile(name string, skipLines int, separateChar rune, commentsChar rune, handler func(raw []string) bool) error {
@@ -97,4 +81,13 @@ func unZip(name string) (string, error) {
 	}
 
 	return destPath, nil
+}
+
+func getUrlFilename(fileUrl string) string {
+	u, _ := url.Parse(fileUrl)
+	filename := "geonames_" + time.Now().Format("20060102") + "_" + path.Base(u.Path)
+
+	os.Mkdir(cacheDir, 0755)
+
+	return path.Join(cacheDir, filename)
 }

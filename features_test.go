@@ -7,7 +7,7 @@ import (
 )
 
 func TestFetchCountryFeatures(t *testing.T) {
-	features, err := FetchCountryFeatures("AD")
+	features, err := FetchCountryFeatures("AD", true)
 
 	assert.Nil(t, err)
 	assert.NotEmpty(t, features)

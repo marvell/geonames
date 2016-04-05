@@ -1,0 +1,14 @@
+hash: 72c2fbdf3f0cd1b47dddef28535e6680609b43da7a6e9fbc19927bc5543098e8
+updated: 2016-04-05T17:56:02.768747103+03:00
+imports:
+- name: github.com/c4milo/unzipit
+  version: 339618fad77ac6102721ba322bc1b1d678083520
+- name: github.com/marvell/csvutil
+  version: 229884256366acfb1582688659b1657e0d0c5200
+- name: github.com/marvell/downloader
+  version: c3ac61d9d7d15f6e7d508f1ad5e27a714b464611
+- name: github.com/palantir/stacktrace
+  version: 71a87034cf2cdedf5aa144165d19af205bf6b9c2
+  subpackages:
+  - cleanpath
+devImports: []

@@ -7,7 +7,7 @@ import (
 )
 
 func TestFetchCountries(t *testing.T) {
-	countries, err := FetchCountries()
+	countries, err := FetchCountries(true)
 	if err != nil {
 		t.Fatal(err)
 	}
