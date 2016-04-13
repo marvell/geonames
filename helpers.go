@@ -1,6 +1,7 @@
 package geonames
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/url"
@@ -85,7 +86,9 @@ func unZip(name string) (string, error) {
 
 func getUrlFilename(fileUrl string) string {
 	u, _ := url.Parse(fileUrl)
-	filename := "geonames_" + time.Now().Format("20060102") + "_" + path.Base(u.Path)
+
+	year, week := time.Now().ISOWeek()
+	filename := fmt.Sprintf("geonames_y%dw%d_%s", year, week, path.Base(u.Path))
 
 	os.Mkdir(cacheDir, 0755)
 
