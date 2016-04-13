@@ -14,7 +14,7 @@ Handy interface for access to geonames.org data.
 See `examples` folder.
 
 ```
-go run country_alternate_names.go
+go run examples/country_alternate_names.go
 ```
 
 ## Caching
