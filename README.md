@@ -13,6 +13,10 @@ Handy interface for access to geonames.org data.
 
 See `examples` folder.
 
+## Caching
+
+Downloaded files save to `./cache` directory with `geonames_y<year>w<number_of_week>_<name_file>` prefix.
+
 # Roadmap
 
 1. Data structures:
@@ -21,7 +25,7 @@ See `examples` folder.
     * [x] Time zones
     * [x] Languages
     * [x] Features
-    * [ ] Alternate names
+    * [x] Alternate names
     * [ ] Admin1 codes
     * [ ] Feature codes
     * [ ] User tags
@@ -29,6 +33,6 @@ See `examples` folder.
 
 2. Functionality:
 
-    * [ ] Caching
+    * [x] Caching
     * [ ] More examples
     * [ ] CLI client
