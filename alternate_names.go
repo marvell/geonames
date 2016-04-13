@@ -18,7 +18,7 @@ type AlternateName struct {
 	IsHistoric      bool   // isHistoric        : '1', if this alternate name is historic and was used in the past
 }
 
-// FetchAlternateNames returns list of countries
+// FetchAlternateNames returns list of alternate names
 func FetchAlternateNames(useCache bool) ([]AlternateName, error) {
 	geonamesZipFile, err := downloadFile(geonamesUrls["alternate_names"], useCache)
 	if err != nil {
@@ -37,6 +37,11 @@ func FetchAlternateNames(useCache bool) ([]AlternateName, error) {
 			logWarn("invalid (%d) count of fields\n\t=> %v", len(raw), raw)
 
 			return false
+		}
+
+		// skip links
+		if raw[2] == "link" {
+			return true
 		}
 
 		id, _ := strconv.Atoi(raw[0])

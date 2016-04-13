@@ -13,6 +13,10 @@ Handy interface for access to geonames.org data.
 
 See `examples` folder.
 
+```
+go run country_alternate_names.go
+```
+
 ## Caching
 
 Downloaded files save to `./cache` directory with `geonames_y<year>w<number_of_week>_<name_file>` prefix.
@@ -34,5 +38,5 @@ Downloaded files save to `./cache` directory with `geonames_y<year>w<number_of_w
 2. Functionality:
 
     * [x] Caching
-    * [ ] More examples
+    * [x] More examples
     * [ ] CLI client
