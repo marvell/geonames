@@ -17,13 +17,13 @@ type TimeZone struct {
 }
 
 // FetchTimeZones returns list of time zones
-func FetchTimeZones(useCache bool) ([]TimeZone, error) {
+func FetchTimeZones(useCache bool) ([]*TimeZone, error) {
 	geonamesFile, err := downloadFile(geonamesUrls["time_zones"], useCache)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "download geonames file with time zones")
 	}
 
-	timeZones := make([]TimeZone, 0)
+	timeZones := make([]*TimeZone, 0)
 
 	err = parseCsvFile(geonamesFile, 1, '\t', '#', func(raw []string) bool {
 		if len(raw) != 5 {
@@ -36,7 +36,7 @@ func FetchTimeZones(useCache bool) ([]TimeZone, error) {
 		dstOffset, _ := strconv.ParseFloat(raw[3], 64)
 		rawOffset, _ := strconv.ParseFloat(raw[4], 64)
 
-		timeZones = append(timeZones, TimeZone{
+		timeZones = append(timeZones, &TimeZone{
 			CountryIso2Code: raw[0],
 			TimeZoneId:      raw[1],
 			GmtOffset:       time.Duration(gmtOffset) * time.Hour,

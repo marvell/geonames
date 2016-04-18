@@ -25,7 +25,7 @@ type PostalCode struct {
 }
 
 // FetchPostalCodes returns list of postal codes by country
-func FetchCountryPostalCodes(countryIso2Code string, useCache bool) ([]PostalCode, error) {
+func FetchCountryPostalCodes(countryIso2Code string, useCache bool) ([]*PostalCode, error) {
 	geonamesZipFile, err := downloadFile(fmt.Sprintf(geonamesUrls["postal_codes"], countryIso2Code), useCache)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "download geonames file with postal codes")
@@ -38,7 +38,7 @@ func FetchCountryPostalCodes(countryIso2Code string, useCache bool) ([]PostalCod
 
 	filename := path.Join(geonamesDir, countryIso2Code+".txt")
 
-	postalCodes := make([]PostalCode, 0)
+	postalCodes := make([]*PostalCode, 0)
 	err = parseCsvFile(filename, 0, '\t', '#', func(raw []string) bool {
 		if len(raw) != 12 {
 			logWarn("invalid (%d) count of fields\n\t=> %v", len(raw), raw)
@@ -50,7 +50,7 @@ func FetchCountryPostalCodes(countryIso2Code string, useCache bool) ([]PostalCod
 		longitude, _ := strconv.ParseFloat(raw[10], 64)
 		accuracy, _ := strconv.Atoi(raw[11])
 
-		postalCodes = append(postalCodes, PostalCode{
+		postalCodes = append(postalCodes, &PostalCode{
 			CountryIso2Code: raw[0],
 			PostalCode:      raw[1],
 			PlaceName:       raw[2],

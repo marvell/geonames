@@ -30,13 +30,13 @@ type Country struct {
 }
 
 // FetchCountries returns list of countries
-func FetchCountries(useCache bool) ([]Country, error) {
+func FetchCountries(useCache bool) ([]*Country, error) {
 	geonamesFile, err := downloadFile(geonamesUrls["countries"], useCache)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "download geonames file with countries")
 	}
 
-	countries := make([]Country, 0)
+	countries := make([]*Country, 0)
 
 	err = parseCsvFile(geonamesFile, 0, '\t', '#', func(raw []string) bool {
 		if len(raw) != 19 {
@@ -49,7 +49,7 @@ func FetchCountries(useCache bool) ([]Country, error) {
 		population, _ := strconv.ParseFloat(raw[7], 64)
 		geonamesId, _ := strconv.Atoi(raw[16])
 
-		countries = append(countries, Country{
+		countries = append(countries, &Country{
 			Iso2Code:           raw[0],
 			Iso3Code:           raw[1],
 			IsoNumeric:         raw[2],

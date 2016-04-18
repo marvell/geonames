@@ -19,7 +19,7 @@ type AlternateName struct {
 }
 
 // FetchAlternateNames returns list of alternate names
-func FetchAlternateNames(useCache bool) ([]AlternateName, error) {
+func FetchAlternateNames(useCache bool) ([]*AlternateName, error) {
 	geonamesZipFile, err := downloadFile(geonamesUrls["alternate_names"], useCache)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "download geonames file with alternate names")
@@ -30,7 +30,7 @@ func FetchAlternateNames(useCache bool) ([]AlternateName, error) {
 		return nil, stacktrace.Propagate(err, "unzip geonames archive file")
 	}
 
-	alternateNames := make([]AlternateName, 0)
+	alternateNames := make([]*AlternateName, 0)
 
 	err = parseCsvFile(path.Join(geonamesDir, "alternateNames.txt"), 0, '\t', '#', func(raw []string) bool {
 		if len(raw) != 8 {
@@ -48,7 +48,7 @@ func FetchAlternateNames(useCache bool) ([]AlternateName, error) {
 		geonameId, _ := strconv.Atoi(raw[1])
 		boolTrue := "1"
 
-		alternateNames = append(alternateNames, AlternateName{
+		alternateNames = append(alternateNames, &AlternateName{
 			Id:              id,
 			GeonameId:       geonameId,
 			IsoLanguage:     raw[2],

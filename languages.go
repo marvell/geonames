@@ -13,13 +13,13 @@ type Language struct {
 }
 
 // FetchLanguages returns list of languages
-func FetchLanguages(useCache bool) ([]Language, error) {
+func FetchLanguages(useCache bool) ([]*Language, error) {
 	geonamesFile, err := downloadFile(geonamesUrls["languages"], useCache)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "download geonames file with languages")
 	}
 
-	languages := make([]Language, 0)
+	languages := make([]*Language, 0)
 
 	err = parseCsvFile(geonamesFile, 1, '\t', '#', func(raw []string) bool {
 		if len(raw) != 4 {
@@ -28,7 +28,7 @@ func FetchLanguages(useCache bool) ([]Language, error) {
 			return true
 		}
 
-		languages = append(languages, Language{
+		languages = append(languages, &Language{
 			Iso639_3:     raw[0],
 			Iso639_2:     raw[1],
 			Iso639_1:     raw[2],

@@ -33,7 +33,7 @@ type Feature struct {
 }
 
 // FetchCountryFeatures return list of features for a country
-func FetchCountryFeatures(countryIso2Code string, useCache bool) ([]Feature, error) {
+func FetchCountryFeatures(countryIso2Code string, useCache bool) ([]*Feature, error) {
 	geonamesZipFile, err := downloadFile(fmt.Sprintf(geonamesUrls["features"], countryIso2Code), useCache)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "download geonames file with features")
@@ -47,13 +47,8 @@ func FetchCountryFeatures(countryIso2Code string, useCache bool) ([]Feature, err
 	return parseFeatures(path.Join(geonamesDir, countryIso2Code+".txt"))
 }
 
-// FetchAllFeatures return list of features for all of countries
-func FetchAllFeatures(useCache bool) ([]Feature, error) {
-	return nil, nil
-}
-
-func parseFeatures(filename string) ([]Feature, error) {
-	features := make([]Feature, 0)
+func parseFeatures(filename string) ([]*Feature, error) {
+	features := make([]*Feature, 0)
 
 	err := parseCsvFile(filename, 0, '\t', '#', func(raw []string) bool {
 		if len(raw) != 19 {
@@ -70,7 +65,7 @@ func parseFeatures(filename string) ([]Feature, error) {
 		dem, _ := strconv.Atoi(raw[16])
 		modificationDate, _ := time.Parse("2006-02-01", raw[18])
 
-		features = append(features, Feature{
+		features = append(features, &Feature{
 			GeonameId:        geonameId,
 			Name:             raw[1],
 			AsciiName:        raw[2],
