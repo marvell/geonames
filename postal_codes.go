@@ -24,7 +24,7 @@ type PostalCode struct {
 	Accuracy        int     // accuracy          : accuracy of lat/lng from 1=estimated to 6=centroi}
 }
 
-// FetchPostalCodes returns list of languages
+// FetchPostalCodes returns list of postal codes by country
 func FetchCountryPostalCodes(countryIso2Code string, useCache bool) ([]PostalCode, error) {
 	geonamesZipFile, err := downloadFile(fmt.Sprintf(geonamesUrls["postal_codes"], countryIso2Code), useCache)
 	if err != nil {
