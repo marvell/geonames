@@ -8,4 +8,6 @@ var geonamesUrls = map[string]string{
 
 	"features_all": "http://download.geonames.org/export/dump/allCountries.zip",
 	"features":     "http://download.geonames.org/export/dump/%s.zip",
+
+	"postal_codes": "http://download.geonames.org/export/zip/%s.zip",
 }

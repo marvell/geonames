@@ -1,10 +1,11 @@
 package geonames
 
 import (
+	"crypto/md5"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
-	"net/url"
 	"os"
 	"path"
 	"time"
@@ -85,10 +86,11 @@ func unZip(name string) (string, error) {
 }
 
 func getUrlFilename(fileUrl string) string {
-	u, _ := url.Parse(fileUrl)
+	filenameHash := md5.New()
+	io.WriteString(filenameHash, fileUrl)
 
 	year, week := time.Now().ISOWeek()
-	filename := fmt.Sprintf("geonames_y%dw%d_%s", year, week, path.Base(u.Path))
+	filename := fmt.Sprintf("geonames_y%dw%d_%x", year, week, filenameHash.Sum(nil)[:4])
 
 	os.Mkdir(cacheDir, 0755)
 
