@@ -34,9 +34,10 @@ type Feature struct {
 
 // FetchCountryFeatures return list of features for a country
 func FetchCountryFeatures(countryIso2Code string, useCache bool) ([]*Feature, error) {
-	geonamesZipFile, err := downloadFile(fmt.Sprintf(geonamesUrls["features"], countryIso2Code), useCache)
+	geonamesUrl := fmt.Sprintf(geonamesUrls["features"], countryIso2Code)
+	geonamesZipFile, err := downloadFile(geonamesUrl, useCache)
 	if err != nil {
-		return nil, stacktrace.Propagate(err, "download geonames file with features")
+		return nil, stacktrace.Propagate(err, "download geonames file (%s) with features", geonamesUrl)
 	}
 
 	geonamesDir, err := unZip(geonamesZipFile)
