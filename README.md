@@ -1,5 +1,6 @@
 # Geonames data for Go
 
+[![Build Status](https://travis-ci.org/marvell/geonames.svg?branch=master&style=flat)](https://travis-ci.org/marvell/geonames)
 [![GoDoc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat)](https://godoc.org/github.com/marvell/geonames)
 [![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](LICENSE)
 
