@@ -31,6 +31,11 @@ func FetchCountryPostalCodes(countryIso2Code string, useCache bool) ([]*PostalCo
 		return nil, stacktrace.Propagate(err, "download geonames file with postal codes")
 	}
 
+	// handles 404 error
+	if geonamesZipFile == "" {
+		return []*PostalCode{}, nil
+	}
+
 	geonamesDir, err := unZip(geonamesZipFile)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "unzip geonames archive file")

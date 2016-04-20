@@ -29,6 +29,10 @@ func downloadFile(fileUrl string, useCache bool) (string, error) {
 
 	err := downloader.New(fileUrl).SaveToFile(filename)
 	if err != nil {
+		if err == downloader.ErrNotFound {
+			return "", nil
+		}
+
 		return "", err
 	}
 

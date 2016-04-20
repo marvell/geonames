@@ -40,6 +40,11 @@ func FetchCountryFeatures(countryIso2Code string, useCache bool) ([]*Feature, er
 		return nil, stacktrace.Propagate(err, "download geonames file (%s) with features", geonamesUrl)
 	}
 
+	// handles 404 error
+	if geonamesZipFile == "" {
+		return []*Feature{}, nil
+	}
+
 	geonamesDir, err := unZip(geonamesZipFile)
 	if err != nil {
 		return nil, stacktrace.Propagate(err, "unzip geonames archive file")
