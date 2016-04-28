@@ -16,7 +16,7 @@ import (
 	"github.com/palantir/stacktrace"
 )
 
-var cacheDir = "./cache"
+var CacheDir = "./cache"
 
 func downloadFile(fileUrl string, useCache bool) (string, error) {
 	filename := getUrlFilename(fileUrl)
@@ -96,7 +96,7 @@ func getUrlFilename(fileUrl string) string {
 	year, week := time.Now().ISOWeek()
 	filename := fmt.Sprintf("geonames_y%dw%d_%x", year, week, filenameHash.Sum(nil)[:4])
 
-	os.Mkdir(cacheDir, 0755)
+	os.MkdirAll(CacheDir, 0755)
 
-	return path.Join(cacheDir, filename)
+	return path.Join(CacheDir, filename)
 }
