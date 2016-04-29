@@ -42,7 +42,7 @@ func downloadFile(fileUrl string, useCache bool) (string, error) {
 func parseCsvFile(name string, skipLines int, separateChar rune, commentsChar rune, handler func(raw []string) bool) error {
 	file, err := os.Open(name)
 	if err != nil {
-		return stacktrace.Propagate(err, "try to open csv file")
+		return stacktrace.Propagate(err, "try to open csv file: %s", name)
 	}
 
 	reader := csvutil.NewReader(file, &csvutil.Config{
@@ -71,7 +71,7 @@ func parseCsvFile(name string, skipLines int, separateChar rune, commentsChar ru
 func unZip(name string) (string, error) {
 	file, err := os.Open(name)
 	if err != nil {
-		return "", stacktrace.Propagate(err, "try to open zip file")
+		return "", stacktrace.Propagate(err, "try to open zip file: %s", name)
 	}
 
 	defer file.Close()
@@ -83,7 +83,7 @@ func unZip(name string) (string, error) {
 
 	destPath, err := unzipit.Unpack(file, tempDir)
 	if err != nil {
-		return "", stacktrace.Propagate(err, "try to unpack zip archive")
+		return "", stacktrace.Propagate(err, "try to unpack zip archive: %s", file.Name())
 	}
 
 	return destPath, nil
