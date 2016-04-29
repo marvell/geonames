@@ -25,8 +25,8 @@ type Feature struct {
 	Admin2Code       string    // admin2 code       : code for the second administrative division, a county in the US, see file admin2Codes.txt; varchar(80)
 	Admin3Code       string    // admin3 code       : code for third level administrative division, varchar(20)
 	Admin4Code       string    // admin4 code       : code for fourth level administrative division, varchar(20)
-	Population       int       // population        : bigint (8 byte int)
-	Elevation        int       // elevation         : in meters, integer
+	Population       *int      // population        : bigint (8 byte int)
+	Elevation        *int      // elevation         : in meters, integer
 	Dem              int       // dem               : digital elevation model, srtm3 or gtopo30, average elevation of 3''x3'' (ca 90mx90m) or 30''x30'' (ca 900mx900m) area in meters, integer. srtm processed by cgiar/ciat.
 	TimeZone         string    // timezone          : the timezone id (see file timeZone.txt) varchar(40)
 	ModificationDate time.Time // modification date : date of last modification in yyyy-MM-dd format
@@ -66,8 +66,23 @@ func parseFeatures(filename string) ([]*Feature, error) {
 		geonameId, _ := strconv.Atoi(raw[0])
 		latitude, _ := strconv.ParseFloat(raw[4], 64)
 		longitude, _ := strconv.ParseFloat(raw[5], 64)
-		population, _ := strconv.Atoi(raw[14])
-		elevation, _ := strconv.Atoi(raw[15])
+
+		var population *int
+		if raw[14] != "" {
+			populationInt, err := strconv.Atoi(raw[14])
+			if err == nil {
+				population = &populationInt
+			}
+		}
+
+		var elevation *int
+		if raw[15] != "" {
+			elevationInt, err := strconv.Atoi(raw[15])
+			if err == nil {
+				elevation = &elevationInt
+			}
+		}
+
 		dem, _ := strconv.Atoi(raw[16])
 		modificationDate, _ := time.Parse("2006-02-01", raw[18])
 
