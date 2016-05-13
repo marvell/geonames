@@ -64,6 +64,15 @@ func parseFeatures(filename string) ([]*Feature, error) {
 		}
 
 		geonameId, _ := strconv.Atoi(raw[0])
+
+		alternateNames := strings.Split(raw[3], ",")
+		for i := range alternateNames {
+			alternateNames[i] = strings.TrimSpace(alternateNames[i])
+			if alternateNames[i] == "" {
+				alternateNames = append(alternateNames[:i], alternateNames[i+1:]...)
+			}
+		}
+
 		latitude, _ := strconv.ParseFloat(raw[4], 64)
 		longitude, _ := strconv.ParseFloat(raw[5], 64)
 
@@ -90,7 +99,7 @@ func parseFeatures(filename string) ([]*Feature, error) {
 			GeonameId:        geonameId,
 			Name:             raw[1],
 			AsciiName:        raw[2],
-			AlternateNames:   strings.Split(raw[3], ","),
+			AlternateNames:   alternateNames,
 			Latitude:         latitude,
 			Longitude:        longitude,
 			Class:            raw[6],
