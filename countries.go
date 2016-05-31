@@ -15,7 +15,7 @@ type Country struct {
 	Name               string  // Country
 	Capital            string  // Capital
 	Area               float64 // Area(in sq km)
-	Population         float64 // Population
+	Population         uint    // Population
 	Continent          string  // Continent
 	Tld                string  // tld
 	CurrencyCode       string  // CurrencyCode
@@ -46,7 +46,7 @@ func FetchCountries(useCache bool) ([]*Country, error) {
 		}
 
 		area, _ := strconv.ParseFloat(raw[6], 64)
-		population, _ := strconv.ParseFloat(raw[7], 64)
+		population, _ := strconv.ParseUint(raw[7], 10, 32)
 		geonamesId, _ := strconv.Atoi(raw[16])
 
 		countries = append(countries, &Country{
@@ -57,7 +57,7 @@ func FetchCountries(useCache bool) ([]*Country, error) {
 			Name:               raw[4],
 			Capital:            raw[5],
 			Area:               area,
-			Population:         population,
+			Population:         uint(population),
 			Continent:          raw[8],
 			Tld:                raw[9],
 			CurrencyCode:       raw[10],
