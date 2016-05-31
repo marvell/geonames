@@ -74,7 +74,9 @@ func unZip(name string) (string, error) {
 		return "", stacktrace.Propagate(err, "try to open zip file: %s", name)
 	}
 
-	defer file.Close()
+	defer func() {
+		_ = file.Close()
+	}()
 
 	tempDir, err := ioutil.TempDir(os.TempDir(), "geonames")
 	if err != nil {
