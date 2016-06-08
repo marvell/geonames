@@ -9,6 +9,11 @@ import (
 func main() {
 	geonames.EnableDebugMode()
 
+	err := geonames.CleanUp()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	countries, err := geonames.FetchCountries(true)
 	if err != nil {
 		log.Fatal(err)

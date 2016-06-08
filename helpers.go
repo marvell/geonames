@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"path"
+	"strings"
 	"time"
 
 	"github.com/c4milo/unzipit"
@@ -95,10 +96,35 @@ func getUrlFilename(fileUrl string) string {
 	filenameHash := md5.New()
 	io.WriteString(filenameHash, fileUrl)
 
-	year, week := time.Now().ISOWeek()
-	filename := fmt.Sprintf("geonames_y%dw%d_%x", year, week, filenameHash.Sum(nil)[:4])
+	filename := fmt.Sprintf("%s_%x", getCacheFilePrefix(), filenameHash.Sum(nil)[:4])
 
 	os.MkdirAll(CacheDir, 0755)
 
 	return path.Join(CacheDir, filename)
+}
+
+func getCacheFilePrefix() string {
+	year, week := time.Now().ISOWeek()
+	return fmt.Sprintf("geonames_y%dw%d", year, week)
+}
+
+func cleanUpCacheDir(excludePrefix string) error {
+	files, err := ioutil.ReadDir(CacheDir)
+	if err != nil {
+		return err
+	}
+
+	for _, f := range files {
+		if strings.HasPrefix(f.Name(), excludePrefix) {
+			continue
+		}
+
+		os.Remove(path.Join(CacheDir, f.Name()))
+	}
+
+	return nil
+}
+
+func CleanUp() error {
+	return cleanUpCacheDir(getCacheFilePrefix())
 }
